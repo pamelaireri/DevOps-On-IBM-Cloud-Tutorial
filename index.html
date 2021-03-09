@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://skills-network-assets.s3.us.cloud-object-storage.appdomain.cloud/styles/sn.css">
+  </head>
+  <body>
+    <h1>DevOps on IBM Cloud</h1>
+    <p>Development Operations (DevOps) is a software methodology that integrates application development and information technology (IT) operations.</p>
+    <p>Application development includes writing code, testing the code, building fixes, integrating the fixes, building the application, and deploying the application.</p>
+    <p>IT operations include managing the environment on which the applications run, providing computer power to the applications, and making the software secure, scale, and run more efficiently.</p>
+    <p>The issues arise because development and operations were traditionally separate groups, “living” in their own isolated world. DevOps blurs the lines between the development tasks and operational tasks by integrating processes and tools.</p>
+    <p>DevOps provides real value to the business. For example, it enables continuous delivery, so as soon as new application features are complete, they can be automatically rolled into production. In turn, this action reduces time-to-market, provides competitive advantages, and reduces cost.</p>
+    <p>DevOps automates the deployment of fixes after they are tested and approved. DevOps enables developers to customize and change applications quickly, improving customer satisfaction.</p>
+    <p>DevOps enables a more stable environment and better application quality. The combination of a shared code base, continuous integration, test-driven techniques, and automated deployments expose problems in application code, infrastructure, or configuration earlier.</p>
+    <p>In this lab, you explore DevOps services in IBM Cloud. The IBM Cloud catalog provides multiple tools for DevOps, but this exercise is focused on IBM Cloud Continuous Delivery. Continuous Delivery enables you to build, test, and deliver applications by using DevOps practices and industry-leading tools.</p>
+    <h2>Learning Objectives</h2>
+    <p>After completing this exercise, you should be able to perform the following tasks:</p>
+    <ul>
+      <li>Enable your application to use IBM Cloud Continuous Delivery.</li>
+      <li>Create a Git repository to manage your source code.</li>
+      <li>View and edit code in the Eclipse Orion Web integrated development environment (IDE).</li>
+      <li>Build and deploy code to IBM Cloud.</li>
+      <li>Test the application in IBM Cloud.</li>
+    </ul>
+    <h2>Prerequisites</h2><!--I'm not sure this requirement is still valid. Needs verification.-->
+    <p>You must have an IBM Cloud account in the US-South region.</p>
+    <h1>Step 1: Re-creating your application</h1>
+    <p>In this step, you re-create the sample Node.js application that you deleted at the end of _Exercise 2, Developing IBM Cloud applications with Eclipse.</p>
+    <ol>
+      <li>Open the IBM Cloud catalog in your web browser: <a href="https://cloud.ibm.com/catalog?cm_mmc=Email_Newsletter-_-Developer_Ed%2BTech-_-WW_WW-_-SkillsNetwork-Courses-IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork-20363179&#x26;cm_mmca1=000026UJ&#x26;cm_mmca2=10006555&#x26;cm_mmca3=M12345678&#x26;cvosrc=email.Newsletter.M12345678&#x26;cvo_campaign=000026UJ&#x26;cm_mmc=Email_Newsletter-_-Developer_Ed%2BTech-_-WW_WW-_-SkillsNetwork-Courses-IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork-20363179&#x26;cm_mmca1=000026UJ&#x26;cm_mmca2=10006555&#x26;cm_mmca3=M12345678&#x26;cvosrc=email.Newsletter.M12345678&#x26;cvo_campaign=000026UJ" target="_blank" rel="external">https://cloud.ibm.com/catalog</a></li>
+      <li>Log in to your IBM Cloud account with your IBM Id and password, if you are not already logged in:
+        <ol>
+          <li>Click <strong>Continue</strong>.</li>
+          <li>Enter your IBM ID and password</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_9-45-22_Login.png"IBM Cloud login" width="75%"><br><em>IBM Cloud login</em>
+    </p>
+    <ol start="3">
+      <li>
+        <p>Click <strong>Log in</strong>.</p>
+      </li>
+      <li>
+        <p>It takes you to the catalog page. In the search field look for <strong>Cloud Foundry</strong> and select the option as seen in the below image.</p>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_9-50-45_Password.png" alt="IBM Cloud login" width="75%"><br><em>IBM Cloud login</em>
+    </p>
+    <ol start="5">
+      <li>It will take you to the Cloud Foundry page. Scroll down to <strong>Application Runtimes</strong> and choose <strong>SDK for Node.js</strong></li>
+    </ol>
+    <p>
+      <img src="2021-03-09_9-58-42_CloudFoundry.png" alt="IBM Cloud login" width="75%"><br><em>IBM Cloud login</em>
+    </p>
+    <ol start="6">
+      <li>
+        <p>Examine the application details for the SDK for Node.js runtime environment:</p>
+        <ol>
+          <li>
+            <p>Enter the app name. In the <strong>App name</strong> field, enter vy301-xxx-nodesample. Replace xxx with the first three characters of your <a href="https://www.uuidgenerator.net/version4">randomly generated key</a> as shown in the next image. For example, if the randomly generated key is ae7, the app name is vy301-ae7-nodesample.</p>
+          </li>
+          <li>
+            <p>The host name is set by default to the app name as shown in the next image.</p>
+          </li>
+          <li>
+            <p>The Domain and Region/Location are chosen according to your location. In this course, you should be using the Dallas (US South) location. For example, as shown in the next image, the location is set to Dallas (US South), and domain is set to the US South’s domain: mybluemix.net.</p>
+          </li>
+          <li>
+            <p>The organization is set by default to the email you logged in with as shown in the next image.</p>
+          </li>
+          <li>
+            <p>The space is set by default to dev as shown in the following image.</p>
+          </li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_9-58-42_CloudFoundry_Setup.png" alt="Application details" width="75%"><br><em>Application details</em>
+    </p>
+    <blockquote>
+      <p><strong>Troubleshooting</strong>: If you see the error <em>Please create a space in the selected org or choose another org</em>, as shown in the following image, click the drop-down menu under Choose a region/location to deploy in and switch the region to Dallas (US South), or the region that you have access to (if you did not specify United States when registering for IBM Cloud). Repeat Step 2 to create your app.</p>
+    </blockquote>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/1-5.png" alt="Create a Cloud Foundry App" width="75%"><br><em>Create a Cloud Foundry App</em>
+    </p>
+    <ol start="5">
+      <li>If you do not have a Lite account, skip this step. For Lite accounts, Pricing Plans show that the memory that is allocated to your app is 64 MB. For this exercise, select the maximum allocation of 256 MB, as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/1-6.png" alt="Pricing Plans" width="75%"><br><em>Pricing Plans</em>
+    </p>
+    <ol start="6">
+      <li>Click <strong>Create</strong>. IBM Cloud proceeds to deploy your application. Your application stages and deploys in a few minutes.</li>
+    </ol>
+    <blockquote>
+      <p><strong>STOP</strong>: Wait until the application finishes staging and it is running in IBM Cloud before you proceed to the next step. For Lite accounts, wait for the applicaiton status, <strong>This app is awake</strong>.</p>
+    </blockquote>
+    <h1>Step 2: Examining the IBM Cloud application</h1>
+    <p>In this step, you explore the application overview page in your IBM Cloud account. The overview page lists the status of your application and the resources that it uses. Set up a source code repository to manage the artifacts that make up your IBM Cloud application:</p>
+    <p>Open the application page for your sample application:</p>
+    <ol>
+      <li>In the Application Details page, click <strong>Overview</strong> from the left navigation bar, as shown in the next image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_10-18-18_Examining_Overview.png" alt="Application Getting Started" width="75%"><br><em>Application Getting Started</em>
+    </p>
+    <ol start="2">
+      <li>Set the memory quota to 128 MB. To do so, click the circle that is labeled <strong>MB MEMORY PER INSTANCE</strong> and either type the value <strong>128</strong> or click the <strong>-</strong> sign to reduce the value from <strong>256</strong>. Click <strong>Save</strong> as shown in the next image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_10-26-52_MB_Memory_Per_Instance.png" alt="MB MEMORY PER INSTANCE" width="75%"><br><em>MB MEMORY PER INSTANCE</em>
+    </p>
+    <blockquote>
+      <p><strong>Note:</strong> If the warning message <em>Changes May Be Overridden</em> is displayed, click <strong>Close</strong>.</p>
+    </blockquote>
+    <ol start="3">
+      <li>Your application restarts. Wait until your app is in the running state as shown in the next image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_10-31-06_App_Running.png" alt="App in the running state" width="75%"><br><em>App in the running state</em>
+    </p>
+    <blockquote>
+      <p><strong>Note</strong>: The state of the application might differ according to your account type. It can be in the <em>This app is awake</em> state, as shown in the next image for Lite accounts or <em>Running</em> for non-Lite accounts.</p>
+    </blockquote>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-5.png" alt="This app is awake application state" width="75%"><br><em>This app is awake application state</em>
+    </p>
+    <p>Test the sample application:</p>
+    <ol>
+      <li>Click <strong>Visit App URL</strong> for your application as in the following image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_10-31-06_Visit_URL.png" alt="Visit App URL" width="75%"><br><em>Visit App URL</em>
+    </p>
+    <ol start="2">
+      <li>A new tab opens in the browser that shows your app. Confirm that the sample application appears as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_10-35-16_starter_app.png" alt="Hello World! window" width="75%"><br><em>Hello World! window</em>
+    </p>
+    <ol start="3">
+      <li>Close the Node.js starter application web page.</li>
+    </ol>
+    <p>Enable continuous delivery for the starter application source code.</p>
+    <ol>
+      <li>In the overview page for the vy301-xxx-nodesample application, scroll down to Continuous delivery and click <strong>Enable</strong> as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_10-38-56_enable_cd.png" alt="Continuous delivery" width="75%"><br><em>Continuous delivery</em>
+    </p>
+    <blockquote>
+      <p><strong>Important</strong>: As indicated previously, you must have an IBM Cloud account in the US-South region to enable toolchains. If you created your account in another region, the message that is shown in the following image is displayed and you cannot proceed with this task.</p>
+    </blockquote>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-9.png" alt="Toolchains region error message" width="75%"><br><em>Toolchains region error message</em>
+    </p>
+    <ol start="2">
+      <li>Click <strong>Create</strong> to enable Continuous Delivery Toolchain for the starter application as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_10-43-07_create_toolchain.png" alt="Continuous Delivery Toolchain" width="75%"><br><em>Continuous Delivery Toolchain</em>
+    </p>
+    <blockquote>
+        <ol start="2">
+            <li>Click <strong>New</strong> to create Cloud API key and then select Create as shown in the following image. </li>
+          </ol>
+          <p>
+            <img src="2021-03-09_10-46-03_toolchain_key.png" alt="Continuous Delivery Toolchain" width="75%"><br><em>Continuous Delivery Toolchain</em>
+          </p>
+      </blockquote>
+    <blockquote>
+      <p><strong>STOP</strong>: Wait until the wizard creates the Git repository for your application.</p>
+    </blockquote>
+    <ol start="3">
+      <li>You are redirected to the Toolchains dashboard as in the following image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_10-52-27_redirect.png" alt="Toolchains dashboard" width="75%"><br><em>Toolchains dashboard</em>
+    </p>
+    <blockquote>
+      <p><strong>Note</strong>: By enabling Continuous Delivery Toolchains, you perform a Git clone for the IBM Cloud starter code by default.</p>
+    </blockquote>
+    <ol start="4">
+      <li>Confirm that the Git repository was created by right-clicking <strong>Git</strong> and then selecting <strong>Open link in new tab</strong>. The GitLab web-based Git repository manager is displayed, as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_10-54-51_git.png" alt="Web-based Git repository manager" width="75%"><br><em>Web-based Git repository manager</em>
+    </p>
+    <ol start="5">
+      <li>Close this browser tab.</li>
+    </ol>
+    <blockquote>
+      <p><strong>Information</strong>: IBM Cloud Continuous Delivery creates a Git repository as a change management system. You can use any Git client to work with the artifacts that are stored in the repository.</p>
+    </blockquote>
+    <h1>Step 3: Reviewing Eclipse Orion for your application</h1>
+    <p>Examine the Web IDE features in IBM Cloud Continuous Delivery:</p>
+    <ol>
+      <li>Click <strong>Eclipse Orion Web IDE</strong>.</li>
+      <li>Click the <strong>Edit</strong> icon (pencil) on the left navigation bar to open the project directory. Examine the window that is shown in the following image opens.</li>
+      </ol>
+    <p>
+      <img src="2021-03-09_10-59-28_Reviewing_Eclipse_Orion.png" alt="Project directory" width="75%"><br><em>Project directory</em>
+    </p>
+    
+    <p>The overview page shows the source code of your application. For this lab, it contains the code of the Node.js application (vy301-xxx-nodesample), a license file, and a readme file.</p>
+    <ol start="2">
+      <li>Open the README.md document by clicking it as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-10-49_eclispse_read.me.png" alt="Opening the README.md document" width="75%"><br><em>Opening the README.md document</em>
+    </p>
+    <p>The readme file provides a quick summary of the repository that manages your application artifacts and source code. It is a preferred practice to provide an up-to-date description of your project in this document, especially for projects that are publicly shared for all users.</p>
+    <blockquote>
+      <p>
+        <strong>Information</strong>: The readme file is written with the Markdown syntax, a lightweight markup language for annotating plain text documents to be displayed as Hypertext Markup Language (HTML) documents. For more information about Markdown, see the following website:
+        <a href="http://daringfireball.net/projects/markdown?cm_mmc=Email_Newsletter-_-Developer_Ed%2BTech-_-WW_WW-_-SkillsNetwork-Courses-IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork-20363179&#x26;cm_mmca1=000026UJ&#x26;cm_mmca2=10006555&#x26;cm_mmca3=M12345678&#x26;cvosrc=email.Newsletter.M12345678&#x26;cvo_campaign=000026UJ" target="_blank" rel="external">http://daringfireball.net/projects/markdown/</a>
+      </p>
+    </blockquote>
+    <ol start="4">
+      <li>View the project members for your application:
+        <ol>
+          <li>Return to the <strong>Application Details</strong> browser tab, click <strong>Overview</strong> in the left navigation bar, and scroll down to <strong>Continuous delivery</strong>.</li>
+          <li>Click <strong>View toolchain</strong>.</li>
+          <li>Click <strong>Manage</strong> in the navigation bar.</li>
+          <li>Examine the list of members for the vy301-xxx-nodesample toolchain, as shown in the following image. You can use this wizard to grant users belonging to this organization access to the toolchain.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-12-46_toolchain_manage.png" alt="Examining the list of members for the toolchain" width="75%"><br><em>Examining the list of members for the toolchain</em>
+    </p>
+    <ol start="5">
+      <li>Examine the Git repository log:
+        <ol>
+          <li>Click <strong>Overview</strong> in the navigation bar.</li>
+          <li>Click <strong>Git</strong> from the Continuous Delivery toolchain dashboard.</li>
+          <li>Click <strong>Repository</strong> from the left navigation bar.</li>
+          <li>Click <strong>Commits</strong>, as shown in the following image. Examine the Git COMMITS for vy301-xxx-nodesample.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-19-44_repository.png" alt="Commits menu" width="75%"><br><em>Commits menu</em>
+    </p>
+    <p>Because you chose the default value (Clone) for Repository type when you created the Continuous Delivery Toolchain, the image shows the Initial commit action, which indicates that the Node.js sample code was cloned. Each commit action has unique identifier, user name, and data stamp.</p>
+    <h1>Step 4: Editing the sample application</h1>
+    <p>Examine the contents of the application in the Git repository:</p>
+    <ol>
+      <li>Examine the sample application in the Web IDE:
+        <ol>
+          <li>Go back to Eclipse Orion Web IDE tab.</li>
+          <li>Confirm that a set of files and directories appear in the project, as shown in the following image.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-10-49_eclispse_read.me.png" alt="Confirming the set of files and directories in the service project" width="75%"><br><em>Confirming the set of files and directories in the service project</em>
+    </p>
+    <ol start="2">
+      <li>Examine the Edit Code mode:
+        <ol>
+          <li>Examine the three options in the left navigation bar as shown in the following image. Hover your cursor over the icons to see the description.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-10-49_eclispse_read.me_hover.png" alt="Navigation bar options" width="75%"><br><em>Navigation bar options</em>
+    </p>
+    <p>The following options are available:</p>
+    <ul>
+      <li>The <strong>Edit</strong> option provides a graphical editor to manage and update project files.</li>
+      <li>The <strong>Git</strong> option enables you to select and check in files from the project into the Git repository.</li>
+      <li>The <strong>Settings</strong> option shows the customization options for the Web IDE.</li>
+    </ul>
+    <ol start="2">
+      <li>Click app.js from the project directory and examine the contents of the app.js source code in the editor as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-26-13_apps.js.png" alt="Clicking app.js" width="75%"><br><em>Clicking app.js</em>
+    </p>
+    <p>The editor in the web application provides the same features as the desktop Eclipse application:</p>
+    <ul>
+      <li>Syntax highlighting</li>
+      <li>Static code analysis of the JavaScript code</li>
+      <li>A preview of the document</li>
+    </ul>
+    <ol start="3">
+      <li>Place your cursor on line 16, next to the term express() in var app=express().</li>
+      <li>Press <strong>Ctrl + Spacebar</strong> on your keyboard. You should see the window shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-29-40_express.png" alt="Code completing feature" width="75%"><br><em>Code completing feature</em>
+    </p>
+    <p>The code completion feature in the JavaScript editor supports Node JavaScript modules and the standard JavaScript functions.</p>
+    <ol start="3">
+      <li>Examine the HTML templates for the sample application welcome page:
+        <ol>
+          <li>In the project directory on the left, expand the <strong>public</strong> folder.</li>
+          <li>Click <strong>index.html</strong>. The window shown in the following image opens.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-31-47_index.html.png" alt="The index.html file" width="75%"><br><em>The index.html file in the editor</em>
+    </p>
+   
+    <p>The built-in editor also highlights and validates HTML web page markup.</p>
+    <ol start="4">
+      <li>Select the sentence in line 19.</li>
+      <li>Change the phrase inside the \
+        <h1>tags to <strong>Hello node sample!</strong>, as shown in the next image.</h1>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-34-40_index_update.png" alt="Changing the phrase" width="75%"><br><em>Changing the phrase</em>
+    </p>
+    <ol start="6">
+      <li>All the code changes are automatically saved. To force a save, press <strong>Ctrl + S</strong> to save your changes.</li>
+    </ol>
+    <h1>Step 5: Committing your changes to the Git repository</h1>
+    <p>In this step, you see the effects of the source code changes by committing your changes to the Git repository, then pushing the changes to your IBM Cloud application.</p>
+    <p>Commit the source code, configuration files, and other artifacts to the Git repository. Deploy the application changes from the Git repository ot the application in your IBM Cloud account:</p>
+    <ol>
+      <li>Switch to Git in the left navigation bar:
+        <ol>
+          <li>Click the <strong>Git</strong> icon as shown in following image.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-34-40_index_git.png" alt="Clicking the Git icon" width="75%"><br><em>Clicking the Git icon</em>
+    </p>
+    <ol start="2">
+      <li>Add and commit the changes in the project to the Git repository:
+        <ol>
+          <li>Examine the Working Directory Changes pane as shown in the following image. The Working Directory Changes window lists the files that you added to the workspace or modified.</li>
+          <li>Enter <em>Updated index page title</em> into the comment window.</li>
+          <li>Make sure that the <strong>Select All</strong> check box is selected.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-45-46_commit.png" alt="Working Directory Changes" width="75%"><br><em>Working Directory Changes</em>
+    </p>
+    <ol start="4">
+      <li>Click <strong>Commit</strong> to save the files into the Git repository.</li>
+    </ol>
+    <blockquote>
+      <p><strong>Information</strong>: If you are prompted to provide author and committer name as mandatory fields, enter your name and email.</p>
+    </blockquote>
+    <ol start="5">
+      <li>Examine the Working Directory Change view. Confirm that there are no more updated files to commit from the working directory and that the changeset is in the Outgoing section as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-48-36_after_commit.png" alt="Working Directory Changes: Outgoing" width="75%"><br><em>Working Directory Changes: Outgoing</em>
+    </p>
+    <blockquote>
+      <p><strong>Note</strong>: You can revert to the last saved version of your source code in the Git repository. To do so, select the changeset that you want to revert, hover your cursor over <strong>more</strong>, and click the <strong>eraser</strong> button as shown in the following image.</p>
+    </blockquote>
+    <p>
+      <img src="2021-03-09_11-51-33_revert.png" alt="Reverting to last saved version" width="75%"><br><em>Reverting to last saved version</em>
+    </p>
+    <h1>Step 6: Deploying the application from the Git repository to IBM Cloud</h1>
+    <p>You can deploy your application to IBM Cloud by using one of the following options:</p>
+    <ul>
+      <li>Deploy from the Git repository.</li>
+      <li>Deploy directly from the Web IDE.</li>
+    </ul>
+    <blockquote>
+      <p><strong>Note</strong>: If more than one developer is editing the application, consider checking in your changes and pushing the most recent revision from the Git repository.</p>
+    </blockquote>
+    <p>To deploy from Git, complete the following steps.</p>
+    <ol>
+      <li>Deploy the updated application from the Git repository to your IBM Cloud account through Delivery Pipeline:
+        <ol>
+          <li>In the Outgoing section under Working Directory Changes, select <strong>Push All</strong> as shown in the following image.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_11-52-58_push_all.png" alt="Push All" width="75%"><br><em>Push All</em>
+    </p>
+    <ol start="2">
+      <li>Switch to <strong>Delivery Pipeline</strong> mode from the Continuous Delivery Toolchains dashboard. From the Application Details page, click <strong>View toolchain</strong>.</li>
+      <li>A new tab opens showing the toolchain. Click <strong>Delivery Pipeline</strong>, as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_10-52-27_delivery_pipeline.png" alt="Delivery Pipeline" width="75%"><br><em>Delivery Pipeline</em>
+    </p>
+    <ol start="4">
+      <li>Examine the delivery pipeline. Wait until the build and deploy tasks complete as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="2021-03-09_12-04-50_deliverypipeline.png" alt="Examining the Delivery Pipeline" width="75%"><br><em>Examining the Delivery Pipeline</em>
+    </p>
+    
+    <ol start="2">
+      <li>Examine the updated code.
+        <ol>
+          <li>In Deploy Stage tile, click <strong>vy301-xxx-nodesample.mubluemix.net</strong> to view the deployed application as shown in the following image.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="2021-03-09_12-04-50_deliverypipeline_sample.png" alt="Viewing the deployed application" width="75%"><br><em>Viewing the deployed application</em>
+    </p>
+    <blockquote>
+      <p><strong>Note</strong>: Git push should be performed on the master Git branch for the application to be deployed automatically. Pushing the changes to any other branch will not cause a deployment unless this branch is merged with the master branch.</p>
+    </blockquote>
+    <ol start="2">
+      <li>Confirm that the application web page changed to “Hello Node Sample!” as shown in the following image.</li>
+    </ol>
+    <p>  
+      <img src="2021-03-09_12-11-17_nodesample.png" alt="Hello node sample" width="75%"><br><em>Hello node sample</em>
+    </p>
+    <!--Start Editing here-->
+    <h1>Step 7: Deploying the application directly from the Web IDE</h1>
+    <p>You can also publish changes directly from the Web IDE. With this technique, you can quickly test changes to your code on an actual IBM Cloud account:</p>
+    <ol>
+      <li>In the Eclipse Orion Web IDE, edit the message in the sample application web page:
+        <ol>
+          <li>On the toolchains page, click <strong>Eclipse Orion Web IDE</strong>, and switch to <strong>Edit mode</strong> from the left navigation bar.</li>
+          <li>Open index.html in the public folder as shown in the following image.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-34.png" alt="Opening index.html" width="75%"><br><em>Opening index.html</em>
+    </p>
+    <ol start="3">
+      <li>In line 19, change the heading to “Welcome to the sample application!”, as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-35.png" alt="Changing the heading" width="75%"><br><em>Changing the heading</em>
+    </p>
+    <ol start="4">
+      <li>
+        <p>All the code changes are automatically saved. To force a save, press <strong>Ctrl + S</strong> to save your changes.</p>
+      </li>
+      <li>
+        <p>Deploy the application directly from your project workspace:</p>
+        <ol>
+          <li>In the server toolbar, click the <strong>Deploy the App from the Workspace</strong> icon as shown in the following image.</li>
+        </ol>
+      </li>
+    </ol>
+    <blockquote>
+      <p><strong>Note</strong>: If the Deploy the App from the Workspace icon is not visible or disabled, see the <strong>Troubleshooting</strong> section.</p>
+    </blockquote>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-36.png" alt="Deploy the App from the Workspace icon" width="75%"><br><em>Deploy the App from the Workspace icon</em>
+    </p>
+    <ol start="2">
+      <li>You are prompted to confirm that you want to stop and redeploy your application vy301-xxx-nodesample. Click <strong>OK</strong> as shown in the next image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-37.png" alt="Stop and Redeploy" width="75%"><br><em>Stop and Redeploy</em>
+    </p>
+    <ol start="3">
+      <li>Wait until the application is stopped, deployed, and started as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-38.png" alt="Application stops, deploys, and restarts" width="75%"><br><em>Application stops, deploys, and restarts</em>
+    </p>
+    <ol start="3">
+      <li>Confirm that the changes appear in the application:
+        <ol>
+          <li>In the server toolbar, click <strong>Open the Deployed App</strong> to view the changes to your application as shown in the next image.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-39.png" alt="Open the Deployed App" width="75%"><br><em>Open the Deployed App</em>
+    </p>
+    <ol start="2">
+      <li>Verify that the updated heading appears in the sample application web page, as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-40.png" alt="Verifying the updated heading" width="75%"><br><em>Verifying the updated heading</em>
+    </p>
+    <h1>Step 8: Automatically push changes to IBM Cloud (optional)</h1>
+    <blockquote>
+      <p><strong>Note</strong>: This part cannot be performed with an IBM Cloud Lite account. You need a Pay-As-You-Go account, or Subscription account. If you are a university student, you can apply for a no-charge promo-code at <a href="http://onthehub.com/ibm?cm_mmc=Email_Newsletter-_-Developer_Ed%2BTech-_-WW_WW-_-SkillsNetwork-Courses-IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork-20363179&#x26;cm_mmca1=000026UJ&#x26;cm_mmca2=10006555&#x26;cm_mmca3=M12345678&#x26;cvosrc=email.Newsletter.M12345678&#x26;cvo_campaign=000026UJ" target="_blank" rel="external">http://onthehub.com/ibm/</a>. Check with your instructor.</p>
+    </blockquote>
+    <p>With the stop and redeploy option, you must first manually deploy the changes and trigger an application restart through the server toolbar. Although this option is more convenient than having to commit your changes to the Git repository, it can be disruptive to your software development workflow for minor changes.</p>
+    <p>The IBM Cloud Live Sync feature automatically pushes any saved changes in the project workspace to a linked IBM Cloud application. For IBM SDK for Node.js applications, you can update static files and view the updates on IBM Cloud without restarting your application. Alternatively, for the non-static Node.js, such as JavaScript files, you need to restart only your application without having to deploy the changes.</p>
+    <p>To automatically push changes to IBM Cloud, complete the following steps.</p>
+    <ol>
+      <li>Return to the Eclipse Orion Web IDE web page and enable the <strong>Live Edit</strong> feature:
+        <ol>
+          <li>Near the servers toolbar, click the switch icon next to <strong>Live Edit</strong>, as shown in the next image.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-41.png" alt="Live Edit" width="75%"><br><em>Live Edit</em>
+    </p>
+    <ol start="2">
+      <li>Click <strong>OK</strong> to redeploy the application and enable Live Edit mode, as shown in the next image. Enabling Live Edit mode allocates more memory to the application to enable debugging.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-42.png" alt="Redeploying application and enabling Live Edit mode" width="75%"><br><em>Redeploying application and enabling Live Edit mode</em>
+    </p>
+    <blockquote>
+      <p><strong>Information</strong>: The quota for the IBM Cloud Lite account is 256 MB, and applications that have Live Edit enabled require 800+ MB on average; this is the reason why this part of the exercise cannot be performed with an IBM Cloud Lite account. The following image shows the error message that you receive if you are using and IBM Cloud Lite account to run this part of the exercise.</p>
+    </blockquote>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-43.png" alt="Error message" width="75%"><br><em>Error message</em>
+    </p>
+    <ol start="3">
+      <li>Confirm that Live Edit mode is enabled, as shown in the next image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-44.png" alt="Live Edit mode enabled" width="75%"><br><em>Live Edit mode enabled</em>
+    </p>
+    <blockquote>
+      <p><strong>Note</strong>: If you have a synchronization error, restart the application.</p>
+    </blockquote>
+    <ol start="4">
+      <li>Wait until the application is running in Live Edit mode, as shown in the next image. It might take a few minutes.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-45.png" alt="Waiting for the application to run in Live Edit mode" width="75%"><br><em>Waiting for the application to run in Live Edit mode</em>
+    </p>
+    <ol start="2">
+      <li>Change the sample application web page heading:
+        <ol>
+          <li>On the index.html web page, edit the heading to read <strong>Welcome to the live edit sample application!</strong>, as shown in the following image.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-46.png" alt="Editing the heading" width="75%"><br><em>Editing the heading</em>
+    </p>
+    <blockquote>
+      <p><strong>Note</strong>: With the Live Edit feature, you do not need to save or deploy your static files. Instead, the changes are automatically deployed to IBM Cloud. Examples of static files include HTML web pages and cascading stylesheets (CSS). You might still need to commit your files in Git if you want other people to see them.</p>
+    </blockquote>
+    <ol start="3">
+      <li>Confirm that the changes appear in your IBM Cloud application:
+        <ol>
+          <li>In the server toolbar, click the <strong>Open the Deployed App</strong> icon to view the changes to your application, as shown in the next image.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-47.png" alt="Open the Deployed App icon" width="75%"><br><em>Open the Deployed App icon</em>
+    </p>
+    <ol start="2">
+      <li>Verify that the updated heading appears in the sample application web page, as shown in the next image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-48.png" alt="Verifying the updated heading" width="75%"><br><em>Verifying the updated heading</em>
+    </p>
+    <h1>Step 9: Cleaning up the application from IBM Cloud and Continuous Delivery</h1>
+    <p>In this step, you clean up the application that you created by removing it form Continuous Delivery Toolchains dashboard:</p>
+    <ol>
+      <li>Open the Continuous Delivery Toolchains dashboard web page. Click the <strong>menu</strong> icon and click <strong>Delete</strong>, as shown in the next image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-49.png" alt="Deleting the application" width="75%"><br><em>Deleting the application</em>
+    </p>
+    <ol start="2">
+      <li>Type your application name (vy301-xxx-nodesample) in the box and click <strong>Delete</strong> to permanently delete the project, as shown in the following image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-50.png" alt="Permanently deleting the project" width="75%"><br><em>Permanently deleting the project</em>
+    </p>
+    <ol start="3">
+      <li>Open the IBM Cloud dashboard and clean up your application by following the instructions in <strong>Lab 3: IBM Cloud command-line interface</strong>, <strong>Step 4: Checking your organization limits and deleting your app</strong>.</li>
+      <li>Delete the Continuous Delivery service. Click the <strong>More Actions</strong> icon to the right of the service and select <strong>Delete Service</strong>, as shown in the next image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-51.png" alt="Deleting the Continuous Delivery service" width="75%"><br><em>Deleting the Continuous Delivery service</em>
+    </p>
+    <ol start="5">
+      <li>Log out of IBM Cloud.</li>
+      <li>Close your web browser.</li>
+    </ol>
+    <h1>Troubleshooting</h1>
+    <p>This section lists common problems that students might encounter while performing this lab:</p>
+    <ol>
+      <li>If your status shows that your app status is <em>unknown</em> or that your app status is <em>not running</em>, you can click the <strong>Overview</strong> link in the upper-left corner of the window, as shown in this image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-52.png" alt="Clicking the Overview link" width="75%"><br><em>Clicking the Overview link</em>
+    </p>
+    <p>Click <strong>Restart</strong> to try starting your app again.</p>
+    <p>You can also try refreshing the page to force your browser to fetch the current status of your app.</p>
+    <ol start="2">
+      <li>If the Deploy the App from the Workspace icon is not visible or disabled, complete these steps:
+        <ol>
+          <li>In the server toolbar, select <strong>Create new launch configuration</strong> from the drop-down list, as shown in the following image.</li>
+        </ol>
+      </li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-53.png" alt="Create new launch configuration" width="75%"><br><em>Create new launch configuration</em>
+    </p>
+    <ol start="2">
+      <li>Click the <strong>+</strong> button to display the Edit Launch Configuration, as shown in the next image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-54.png" alt="Clicking + button" width="75%"><br><em>Clicking + button</em>
+    </p>
+    <ol start="3">
+      <li>In the Edit Launch Configuration dialog, click <strong>Save</strong>, as shown in the next image.</li>
+    </ol>
+    <p>
+      <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork/labs/4_DevOps/images/2-55.png" alt="Edit and save the launch configuration" width="75%"><br><em>Edit and save the launch configuration</em>
+    </p>
+    <p>The Deploy the App from the Workspace icon should now be visible and enabled.</p>
+    <h1>Summary</h1>
+    <p>In this lab, you used IBM Cloud Continuous Delivery to manage your IBM Cloud application that is written for the IBM SDK for Node.js server runtime.</p>
+    <p>Then, you saved your changes into the Git repository. Through the Delivery Pipeline, you pushed our committed source code changes to your IBM Cloud application.</p>
+    <p>In the last part of the lab, you deployed your changes directly from the project workspace. You also used the IBM Cloud Live Sync feature to push changes to static files without redeploying the application and without needing to restart it.</p>
+    <h1>Next Steps</h1>
+    <p>In this lab you, enabled your application to use IBM Cloud Continuous Delivery. You created a Git repostiory, viewed and edited code in the Eclipse Orion Web IDE, and then built, deployed and tested your application in IBM Cloud. If you are interested in continuing to learn about DevOps and Git, explore <a href="https://www.ibm.com/cloud/devops?cm_mmc=Email_Newsletter-_-Developer_Ed%2BTech-_-WW_WW-_-SkillsNetwork-Courses-IBMDeveloperSkillsNetwork-CD0201EN-SkillsNetwork-20363179&#x26;cm_mmca1=000026UJ&#x26;cm_mmca2=10006555&#x26;cm_mmca3=M12345678&#x26;cvosrc=email.Newsletter.M12345678&#x26;cvo_campaign=000026UJ" target="_blank" rel="external">IBM DevOps</a>.</p>
+    <script>window.addEventListener('load', function() {
+snFaculty.inject();
+});</script>
+    <script src="https://skills-network-assets.s3.us.cloud-object-storage.appdomain.cloud/scripts/inject.min.js"></script>
+  </body>
+</html>
