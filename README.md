@@ -1,4 +1,4 @@
-# DevOps-on-IBM-Cloud-Tutorial
+# DevOps-On-IBM-Cloud-Tutorial
 Development Operations (DevOps) is a software methodology that integrates application development and information technology (IT) operations.
 
 Application development includes writing code, testing the code, building fixes, integrating the fixes, building the application, and deploying the application.
